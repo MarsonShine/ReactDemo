@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Handing  Events</title>
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/browser_1.0.0.js"></script>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+    <script type="text/babel">
+    function ActionLink(){
+        function handleClick(e){
+            e.preventDefault();
+            console.log('The link was clicked.');
+        }
+
+        return (
+            <a href="#" onClick={handleClick}>
+            Click Me
+            </a>
+        );
+    }
+
+    class Toggle extends React.Component{
+        constructor(props){
+            super(props);
+            this.state = {isToggleOn : true};
+            this.handleClick = this.handleClick.bind(this);
+        }
+
+        handleClick(){
+            this.setState(prevState => ({
+                isToggleOn : !prevState.isToggleOn
+            }));
+        }
+
+        // render() {
+        //     return (
+        //     <button onClick={this.handleClick}>
+        //         {this.state.isToggleOn ? 'ON' : 'OFF'}
+        //     </button>
+        //     );
+        // }
+        render() {
+            return (
+                <button onClick={this.handleClick}>
+                    {this.state.isToggleOn ? 'ON' : 'OFF'}
+                </button>
+            );
+        }
+    }
+    ReactDOM.render(
+        <ActionLink />,
+        document.getElementById('root')
+    )
+    ReactDOM.render(
+        <Toggle />,
+        document.getElementById('root')
+    )
+    
+    class LoggingButton extends React.Component {
+        // This syntax ensures `this` is bound within handleClick.
+        // Warning: this is *experimental* syntax.
+        // handleClick = () => {
+        //   console.log('this is:', this);
+        // }
+      
+        render() {
+          return (
+            <button onClick={this.handleClick}>
+              Click me
+            </button>
+          );
+        }
+    }
+
+    class LoggingButtonV2 extends React.Component{
+        handleClick() {
+            console.log('this is:',this);
+        }
+
+        render() {
+            return (
+                <button onClick={(e) => this.handleClick(e)}>
+                    Click me
+                </button>
+            )
+        }
+    }
+    </script>
+</body>
+</html>
