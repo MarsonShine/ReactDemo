@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lifting State Up</title>
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/browser_1.0.0.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+    function BoilingVerdict(props) {
+        if(props.celsius >= 100) {
+            return <p>The water would boil.</p>;
+        }
+        return <p>The water would not boil.</p>;
+    }
+
+    class Calculator extends React.Component {
+        constructor(props){
+            super(props);
+            this.state = {
+                temperature: ''
+            }
+            this.handleChange = this.handleChange.bind(this);
+        }
+
+        handleChange(event){
+            this.setState({temperature: event.target.value});
+        }
+
+        render() {
+            const temperature = this.state.temperature;
+            return (
+                <fieldset>
+                    <legend>Enter temperature in Celsius:</legend>
+                    <input
+                    value={temperature}
+                    onChange={this.handleChange} />
+
+                    <BoilingVerdict
+                    celsius={parseFloat(temperature)} />
+
+                </fieldset>
+            );
+        }
+    }
+
+    //Adding a Second Input
+    const scaleNames = {
+        c: 'Celsius',
+        f: 'Fahrenheit'
+    };
+
+    ReactDOM.render(
+        <Calculator />,
+        document.getElementById('root')
+    )
+    </script>
+</body>
+</html>

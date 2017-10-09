@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lists And Keys</title>
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/browser_1.0.0.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+    const numbers = [1, 2, 3, 4, 5];
+    const listItems = numbers.map((number) => 
+        <li key={number.toString()}>{number}</li>
+    );
+    ReactDOM.render(
+        <ul>{listItems}</ul>,
+        document.getElementById('root')
+    )
+
+    function NumberList(props){
+        const numbers = props.numbers;
+        const listItems = numbers.map((number) => 
+        <li key={number.toString()}>{number}</li>
+        );
+        return (
+            <ul>{listItems}</ul>
+        );
+    }
+    const numbers1 = [1, 2, 3, 4, 5];
+    ReactDOM.render(
+        <NumberList numbers={numbers1}/>,
+        document.getElementById('root')
+    )
+    //Incorrect Key Useage
+    function ListItem(props){
+        const value = props.value;
+        return (
+            <li key={value.toString()}>
+                {value}
+            </li>
+        );
+    }
+    //Correct Key Useage
+    function ListItemV2(props){
+        return (
+            <li>props.value</li>
+        )
+    }
+    function NumberList(props){
+        const numbers = props.numbers;
+        const listItems = numbers.map((number) => 
+            <ListItem key={number.toString()} value={number}/>
+        );
+        return (
+            <ul>
+            {listItems}
+            </ul>
+        )
+    }
+
+    const numbers2 = [1, 2, 3, 4, 5];
+    ReactDOM.render(
+        <NumberList numbers={numbers2}/>,
+        document.getElementById('root')
+    )
+
+    //Keys Must Only Be Unique Among Siblings
+    function Blog(props){
+        const sidebar = (
+            <ul>
+                {props.posts.map(post => 
+                <li key={post.id}>
+                    {post.title}
+                </li>
+                )}
+            </ul>
+        );
+        const content = props.posts.map(post=>
+            <div key={post.id}>
+                <h3>{post.title}</h3>
+                <p>{post.content}</p>
+            </div>
+            // <Post key={post.id} id={post.id} title={post.title}/>
+        );
+        return (
+            <div>
+                {sidebar}
+                <hr />
+                {content}
+            </div>
+        );
+    }
+    const posts = [
+        {id: 1, title: 'Hello World', content: 'Welcome to learning React!'},
+        {id: 2, title: 'Installation', content: 'You can install React from npm.'},
+    ];
+    ReactDOM.render(
+        <Blog posts={posts}/>,
+        document.getElementById('root')
+    )
+    </script>
+</body>
+</html>
